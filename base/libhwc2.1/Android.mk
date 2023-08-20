@@ -26,10 +26,21 @@ LOCAL_SHARED_LIBRARIES := liblog libcutils libhardware \
 	android.hardware.graphics.composer@2.4 \
 	android.hardware.graphics.allocator@2.0 \
 	android.hardware.graphics.mapper@2.0 \
-	libGrallocWrapper libhardware_legacy libutils libsync libacryl libui libion_exynos libion
+	libhardware_legacy libutils libsync libacryl libui libion_exynos libion
 
 LOCAL_SHARED_LIBRARIES += \
 	libprocessgroup
+
+ifeq ($(BOARD_USES_EXYNOS_GRALLOC_VERSION), 4)
+LOCAL_SHARED_LIBRARIES += \
+    android.hardware.graphics.allocator@4.0 \
+    android.hardware.graphics.mapper@4.0 \
+    libGralloc4Wrapper
+else
+LOCAL_SHARED_LIBRARIES += \
+    libGrallocWrapper
+endif
+LOCAL_PROPRIETARY_MODULE := true
 
 LOCAL_HEADER_LIBRARIES := libhardware_legacy_headers libbinder_headers libexynos_headers
 LOCAL_STATIC_LIBRARIES += libVendorVideoApi
@@ -96,8 +107,19 @@ LOCAL_SHARED_LIBRARIES := liblog libcutils libutils libbinder libexynosdisplay l
 	android.hardware.graphics.composer@2.4 \
 	android.hardware.graphics.allocator@2.0 \
 	android.hardware.graphics.mapper@2.0 \
-	libGrallocWrapper libion
+	libion
 LOCAL_STATIC_LIBRARIES += libVendorVideoApi
+LOCAL_PROPRIETARY_MODULE := true
+
+ifeq ($(BOARD_USES_EXYNOS_GRALLOC_VERSION), 4)
+LOCAL_SHARED_LIBRARIES += \
+    android.hardware.graphics.allocator@4.0 \
+    android.hardware.graphics.mapper@4.0 \
+    libGralloc4Wrapper
+else
+LOCAL_SHARED_LIBRARIES += \
+    libGrallocWrapper
+endif
 LOCAL_PROPRIETARY_MODULE := true
 
 LOCAL_C_INCLUDES += \
@@ -142,9 +164,20 @@ LOCAL_SHARED_LIBRARIES := liblog libcutils libutils libexynosdisplay libacryl \
 	android.hardware.graphics.composer@2.4 \
 	android.hardware.graphics.allocator@2.0 \
 	android.hardware.graphics.mapper@2.0 \
-	libGrallocWrapper libui libion
+	libui libion
 LOCAL_PROPRIETARY_MODULE := true
 LOCAL_HEADER_LIBRARIES := libhardware_legacy_headers libbinder_headers libexynos_headers
+
+ifeq ($(BOARD_USES_EXYNOS_GRALLOC_VERSION), 4)
+LOCAL_SHARED_LIBRARIES += \
+    android.hardware.graphics.allocator@4.0 \
+    android.hardware.graphics.mapper@4.0 \
+    libGralloc4Wrapper
+else
+LOCAL_SHARED_LIBRARIES += \
+    libGrallocWrapper
+endif
+LOCAL_PROPRIETARY_MODULE := true
 
 LOCAL_CFLAGS := -DHLOG_CODE=0
 LOCAL_CFLAGS += -DLOG_TAG=\"hwcomposer\"
